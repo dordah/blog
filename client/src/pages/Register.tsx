@@ -18,7 +18,6 @@ const Register: React.FC = () => {
       body: JSON.stringify({ username, password }),
       headers: { "Content-Type": "application/json" },
     });
-    console.log(response);
     response.status === 200
       ? alert("Registeration Succesful")
       : alert("Registeration Failed");

@@ -23,7 +23,6 @@ const Login: React.FC = () => {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
-    console.log("Received login response:", res);
     if (res.ok) {
       const userInfo = await res.json();
       setUserInfo(userInfo);
