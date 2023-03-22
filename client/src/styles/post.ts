@@ -64,6 +64,6 @@ export const EditButton = styled(Link)`
   text-decoration: none;
 `;
 
-export const IconWrapper = styled.svg`
+export const EditIconWrapper = styled.svg`
   height: 20px;
 `;
