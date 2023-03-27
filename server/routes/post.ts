@@ -4,6 +4,7 @@ import {
   getPosts,
   updatePost,
   getPostById,
+  likeHandler,
 } from "../controllers/post";
 import multer from "multer";
 
@@ -15,5 +16,6 @@ postRouter.post("/", uploadMiddleware.single("file"), createPost);
 postRouter.get("/", getPosts);
 postRouter.put("/", uploadMiddleware.single("file"), updatePost);
 postRouter.get("/:id", getPostById);
+postRouter.post("/:id/like", likeHandler);
 
 export default postRouter;

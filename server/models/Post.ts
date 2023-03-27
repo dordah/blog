@@ -8,6 +8,7 @@ interface IPost extends Document {
   summary: string;
   content: string;
   cover: string;
+  likes: mongoose.Types.ObjectId[];
 }
 
 const PostSchema = new Schema(
@@ -17,6 +18,7 @@ const PostSchema = new Schema(
     summary: { type: String, required: true },
     content: { type: String, required: true },
     cover: { type: String, required: true },
+    likes: [{ type: Schema.Types.ObjectId, ref: "user" }],
   },
   { timestamps: true }
 );

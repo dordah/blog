@@ -43,7 +43,7 @@ const Header: React.FC = () => {
         {username && (
           <>
             <span>Hello, {username}</span>
-            <LinkWrapper to="/create">Create new post</LinkWrapper>
+            <LinkWrapper to="/create">Create New Post</LinkWrapper>
             <AnchorWrapper onClick={logout}>Logout</AnchorWrapper>
           </>
         )}

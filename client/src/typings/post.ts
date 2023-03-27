@@ -12,4 +12,5 @@ export interface PostProps {
   cover: string;
   createdAt: string;
   updatedAt: string;
+  likes: string[];
 }

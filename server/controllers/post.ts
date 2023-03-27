@@ -111,3 +111,35 @@ export const getPostById = async (req: Request, res: Response) => {
     res.status(SERVER_ERROR.status).json({ message: SERVER_ERROR.message });
   }
 };
+
+export const likeHandler = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const postDoc = await Post.findById(id);
+    if (!postDoc) {
+      return res
+        .status(POST_NOT_FOUND.status)
+        .json({ error: POST_NOT_FOUND.message });
+    }
+
+    const decoded = await verifyToken(req.cookies.token);
+    const userId = (decoded as JwtPayload).id;
+
+    const likedIndex = postDoc.likes.indexOf(userId);
+    if (likedIndex === -1) {
+      postDoc.likes.push(userId);
+    } else {
+      postDoc.likes.splice(likedIndex, 1);
+    }
+
+    const updatedPost = await postDoc.save();
+
+    return res.json(updatedPost);
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(SERVER_ERROR.status)
+      .json({ error: SERVER_ERROR.message });
+  }
+};

@@ -26,11 +26,40 @@ const Post: FC = () => {
       const response = await fetch(`http://localhost:4000/post/${id}`);
       const postInfo = await response.json();
       setPostInfo(postInfo);
+      setIsLiked(postInfo.likes?.includes(userInfo?.id) ?? false);
     })();
   }, []);
 
-  const handleLikeClick = () => {
-    setIsLiked(!isLiked);
+  const handleLikeClick = async () => {
+    if (!userInfo) {
+      return;
+    }
+
+    const newIsLiked = !isLiked;
+    setIsLiked(newIsLiked);
+
+    try {
+      await fetch(`http://localhost:4000/post/${id}/like`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isLiked: newIsLiked }),
+      });
+      setPostInfo((prevState) => {
+        if (!prevState) return null;
+        const newLikes = newIsLiked
+          ? [...(prevState.likes || []), userInfo.id]
+          : (prevState.likes || []).filter((id) => id !== userInfo.id);
+        return {
+          ...prevState,
+          likes: newLikes,
+        };
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -42,7 +71,7 @@ const Post: FC = () => {
             {formatISO9075(new Date(postInfo.createdAt))}
           </TimeWrapper>
           <AuthorWrapper>by {postInfo.author.username}</AuthorWrapper>
-          {userInfo.id === postInfo.author._id && (
+          {userInfo?.id === postInfo.author._id && (
             <EditWrapper>
               <EditButton to={`/edit/${postInfo._id}`}>
                 <SVG>
@@ -66,6 +95,7 @@ const Post: FC = () => {
             >
               <path d={iconsDataPath.like} />
             </SVG>
+            {postInfo.likes?.length}
           </div>
         </>
       )}

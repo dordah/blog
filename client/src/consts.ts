@@ -25,7 +25,6 @@ export const modules = {
     ["clean"],
   ],
 };
-
 export const formats = [
   "header",
   "bold",
@@ -39,3 +38,6 @@ export const formats = [
   "link",
   "image",
 ];
+
+// User Context
+export const USER_INFO_KEY = "user_info";
